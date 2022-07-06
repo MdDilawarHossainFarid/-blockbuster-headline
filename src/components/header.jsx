@@ -15,7 +15,7 @@ class Header extends React.Component {
   render() {
     const { category, changeCategory } = this.props;
     // const { searchTerm } = this.state;
-    console.log(category);
+
     return (
       <div className="my-4">
         <h1 className="mb-4" style={{ fontWeight: "300" }}>
