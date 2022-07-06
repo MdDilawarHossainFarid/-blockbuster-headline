@@ -13,9 +13,9 @@ class Header extends React.Component {
   handleKeyPress = (e) => {};
 
   render() {
-    const { category } = this.props;
+    const { category, changeCategory } = this.props;
     // const { searchTerm } = this.state;
-
+    console.log(category);
     return (
       <div className="my-4">
         <h1 className="mb-4" style={{ fontWeight: "300" }}>
@@ -42,11 +42,17 @@ class Header extends React.Component {
               // );
               if (category === newsCategory[item]) {
                 return (
-                  <button className="btn btn-sm btn-warning mr-2 mb-2">{`#${newsCategory[item]}`}</button>
+                  <button
+                    onClick={() => changeCategory(newsCategory[item])}
+                    className="btn btn-sm btn-warning ms-2 mb-2"
+                  >{`#${newsCategory[item]}`}</button>
                 );
               }
               return (
-                <button className="btn btn-sm btn-light mr-2 mb-2">{`#${newsCategory[item]}`}</button>
+                <button
+                  onClick={() => changeCategory(newsCategory[item])}
+                  className="btn btn-sm btn-light ms-2 mb-2"
+                >{`#${newsCategory[item]}`}</button>
               );
             })}
         </div>

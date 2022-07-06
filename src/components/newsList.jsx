@@ -32,7 +32,7 @@ const NewsItem = ({ item }) => (
         <strong>published at {getDateString(item.publishedAt)}</strong>
       </small>
       <div
-        className="ml-auto"
+        className="ms-auto"
         style={{
           padding: "0.25rem 0.5rem",
           background: "#ededed",
