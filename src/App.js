@@ -1,6 +1,4 @@
 import React from "react";
-// import axios from "axios";
-
 import News, { newsCategory } from "../src/news";
 
 import Header from "./components/header";
@@ -9,45 +7,25 @@ import Pagination from "./components/pagination";
 import SubHeader from "./components/sub-header";
 import Loading from "./components/loading";
 
+const news = new News(newsCategory.technology);
 class App extends React.Component {
   state = {
-    news: [],
-    category: newsCategory.technology,
-  };
-
-  changeCategory = (category) => {
-    this.setState({ category });
+    data: {},
+    isLoading: true,
   };
 
   componentDidMount() {
-    // const url = `${process.env.REACT_APP_NEWS_URL}?apikey=${process.env.REACT_APP_NEWS_API_KEY}&category=${this.state.category}&pageSize=2`;
-    // axios
-    //   .get(url)
-    //   .then((response) => {
-    //     this.setState({ news: response.data.articles });
-    //   })
-    //   .catch((e) => {
-    //     console.log(e.name);
-    //   });
-
-    const news = new News(newsCategory.technology);
-    news.getNews();
+    news
+      .getNews()
+      .then((data) => {
+        this.setState({ data: data, isLoading: false });
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("Something Went Worng");
+        this.setState({ isLoading: false });
+      });
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-
-  //   if (prevProps.category !== this.state.category) {
-  //     const url = `${process.env.REACT_APP_NEWS_URL}?apikey=${process.env.REACT_APP_NEWS_API_KEY}&category=${this.state.category}&pageSize=10`;
-  //     axios
-  //       .get(url)
-  //       .then((response) => {
-  //         this.setState({ news: response.data.articles });
-  //       })
-  //       .catch((e) => {
-  //         console.log(e);
-  //       });
-  //   }
-  // }
 
   render() {
     return (
@@ -59,9 +37,13 @@ class App extends React.Component {
               changeCategory={this.changeCategory}
             />
             <SubHeader />
-            <NewsList news={this.state.news} />
+            {this.state.isLoading ? (
+              <Loading />
+            ) : (
+              <NewsList news={this.state.data.article} />
+            )}
+
             <Pagination />
-            <Loading />
           </div>
         </div>
       </div>

@@ -20,28 +20,63 @@ export default class News {
   async getNews() {
     try {
       const { data } = await axios.get(this._getURL());
-      console.log(data);
-      this._totalPage = Math.ceil(data);
+
+      this._totalPage = Math.ceil(data.totalResults / this._pageSize);
+      // console.log(this._pageSize, this._totalPage);
+      return {
+        article: data.articles,
+        totalPage: this._totalPage,
+        currentPage: this._currentPage,
+        category: this._category,
+        totalResults: data.totalResults,
+      };
     } catch (e) {
       throw new Error(e);
     }
   }
 
-  next() {}
+  next() {
+    if (this._isNext()) {
+      this._currentPage++;
+      return this.getNews();
+    }
+    return false;
+  }
 
-  pre() {}
+  pre() {
+    if (this._isPrevious()) {
+      this._currentPage--;
+      return this.getNews();
+    }
+    return false;
+  }
 
-  setCurrentPage() {}
+  setCurrentPage(pageNumber) {
+    if (pageNumber < 1 && pageNumber > this._totalPage) {
+      throw new Error("Invalid PAge Number");
+    }
+    this._currentPage = pageNumber;
+    return this.getNews();
+  }
 
-  changeCategory() {}
+  changeCategory(category) {
+    this._category = category;
+    this._currentPage = 1;
+    return this.getNews();
+  }
 
-  search() {}
+  search(term) {
+    this._searchTerm = term;
+    return this.getNews();
+  }
 
   _getURL() {
     let url = "/?";
+
     if (this._category) {
-      url += `category=${this.category}`;
+      url += `&category=${this._category}`;
     }
+
     if (this._searchTerm) {
       url += `&q=${this._searchTerm}`;
     }
@@ -53,5 +88,13 @@ export default class News {
     }
 
     return url;
+  }
+
+  _isNext() {
+    return this._currentPage < this._totalPage;
+  }
+
+  _isPrevious() {
+    return this._currentPage > 1;
   }
 }
