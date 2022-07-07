@@ -10,7 +10,11 @@ class Header extends React.Component {
     this.setState({ searchTerm: e.target.value });
   };
 
-  handleKeyPress = (e) => {};
+  handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      this.props.search(this.state.searchTerm);
+    }
+  };
 
   render() {
     const { category, changeCategory } = this.props;

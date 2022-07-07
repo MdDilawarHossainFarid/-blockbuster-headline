@@ -25,6 +25,8 @@ export default class News {
       // console.log(this._pageSize, this._totalPage);
       return {
         article: data.articles,
+        isNext: this._isNext(),
+        isPrevious: this._isPrevious(),
         totalPage: this._totalPage,
         currentPage: this._currentPage,
         category: this._category,
@@ -43,7 +45,7 @@ export default class News {
     return false;
   }
 
-  pre() {
+  prev() {
     if (this._isPrevious()) {
       this._currentPage--;
       return this.getNews();
