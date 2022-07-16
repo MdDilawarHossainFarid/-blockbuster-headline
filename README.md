@@ -10,7 +10,7 @@
 ##  Project Description
 
 #### 1. What application does ?
-    It is provided you latest news, breaking stories 
+    It provided you latest news, breaking stories 
 
 #### 2. which tech used ? 
     HTML,CSS,React,Bootstrap
